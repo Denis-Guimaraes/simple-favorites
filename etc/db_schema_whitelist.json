@@ -1,0 +1,18 @@
+{
+    "simple_favorites": {
+        "column": {
+            "customer_id": true,
+            "product_id": true,
+            "created_at": true
+        },
+        "index": {
+            "SIMPLE_FAVORITES_CUSTOMER_ID": true,
+            "SIMPLE_FAVORITES_PRODUCT_ID": true
+        },
+        "constraint": {
+            "SIMPLE_FAVORITES_CUSTOMER_ID_CUSTOMER_ENTITY_ENTITY_ID": true,
+            "SIMPLE_FAVORITES_PRODUCT_ID_CATALOG_PRODUCT_ENTITY_ENTITY_ID": true,
+            "SIMPLE_FAVORITES_CUSTOMER_ID_PRODUCT_ID": true
+        }
+    }
+}
