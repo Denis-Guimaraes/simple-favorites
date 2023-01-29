@@ -1,7 +1,6 @@
 <?php
 namespace SimpleMage\SimpleFavorites\Api;
 
-use SimpleMage\SimpleFavorites\Api\CustomerFavoritesInterface;
 use SimpleMage\SimpleFavorites\Api\Data\FavoriteInterface;
 
 /**
@@ -16,9 +15,9 @@ interface FavoriteRepositoryInterface
      * @api
      * @since 1.0.0
      * @param int $customerId
-     * @return CustomerFavoritesInterface
+     * @return FavoriteInterface[]
      */
-    public function get(int $customerId): CustomerFavoritesInterface;
+    public function get(int $customerId): array;
     /**
      * Save favorite
      *
@@ -37,4 +36,24 @@ interface FavoriteRepositoryInterface
      * @return bool
      */
     public function delete(FavoriteInterface $favorite): bool;
+    /**
+     * Save favorite by customer ID and product ID
+     *
+     * @api
+     * @since 1.0.0
+     * @param int $customerId
+     * @param int $productId
+     * @return FavoriteInterface
+     */
+    public function saveByIds(int $customerId, int $productId): FavoriteInterface;
+    /**
+     * Delete favorite by customer ID and product ID
+     *
+     * @api
+     * @since 1.0.0
+     * @param int $customerId
+     * @param int $productId
+     * @return bool
+     */
+    public function deleteByIds(int $customerId, int $productId): bool;
 }

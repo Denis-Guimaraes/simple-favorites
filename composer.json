@@ -4,14 +4,17 @@
     "type": "magento2-module",
     "version": "0.0.1",
     "license": [
-      "MIT"
+        "MIT"
     ],
     "autoload": {
-      "psr-4": {
-        "SimpleMage\\SimpleFavorites\\": ""
-      },
+        "psr-4": {
+            "SimpleMage\\SimpleFavorites\\": ""
+        },
       "files": [
-        "registration.php"
-      ]
+            "registration.php"
+        ]
+    },
+    "require": {
+        "php": "~7.4.0||~8.1.0"
     }
-  }
+}
