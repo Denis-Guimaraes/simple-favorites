@@ -2,6 +2,8 @@
 namespace SimpleMage\SimpleFavorites\Api;
 
 use SimpleMage\SimpleFavorites\Api\Data\FavoriteInterface;
+use Magento\Framework\Api\SearchCriteriaInterface;
+use SimpleMage\SimpleFavorites\Api\Data\FavoriteSearchResultsInterface;
 
 /**
  * @api
@@ -10,32 +12,23 @@ use SimpleMage\SimpleFavorites\Api\Data\FavoriteInterface;
 interface FavoriteRepositoryInterface
 {
     /**
-     * Get customer favorites
+     * Get customer favorite list
      *
      * @api
      * @since 1.0.0
      * @param int $customerId
-     * @return FavoriteInterface[]
+     * @return FavoriteSearchResultsInterface
      */
-    public function get(int $customerId): array;
+    public function getListByCustomerId(int $customerId): FavoriteSearchResultsInterface;
     /**
-     * Save favorite
+     * Get favorite list
      *
      * @api
      * @since 1.0.0
-     * @param FavoriteInterface $favorite
-     * @return FavoriteInterface
+     * @param SearchCriteriaInterface $searchCriteria
+     * @return FavoriteSearchResultsInterface
      */
-    public function save(FavoriteInterface $favorite): FavoriteInterface;
-    /**
-     * Delete favorite
-     *
-     * @api
-     * @since 1.0.0
-     * @param FavoriteInterface $favorite
-     * @return bool
-     */
-    public function delete(FavoriteInterface $favorite): bool;
+    public function getList(SearchCriteriaInterface $searchCriteria): FavoriteSearchResultsInterface;
     /**
      * Save favorite by customer ID and product ID
      *
@@ -47,6 +40,15 @@ interface FavoriteRepositoryInterface
      */
     public function saveByIds(int $customerId, int $productId): FavoriteInterface;
     /**
+     * Save favorite
+     *
+     * @api
+     * @since 1.0.0
+     * @param FavoriteInterface $favorite
+     * @return FavoriteInterface
+     */
+    public function save(FavoriteInterface $favorite): FavoriteInterface;
+    /**
      * Delete favorite by customer ID and product ID
      *
      * @api
@@ -56,4 +58,13 @@ interface FavoriteRepositoryInterface
      * @return bool
      */
     public function deleteByIds(int $customerId, int $productId): bool;
+    /**
+     * Delete favorite
+     *
+     * @api
+     * @since 1.0.0
+     * @param FavoriteInterface $favorite
+     * @return bool
+     */
+    public function delete(FavoriteInterface $favorite): bool;
 }

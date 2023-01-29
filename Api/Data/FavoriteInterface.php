@@ -35,4 +35,31 @@ interface FavoriteInterface
      * @return string
      */
     public function getCreatedAt(): string;
+    /**
+     * Set customer id
+     *
+     * @api
+     * @since 1.0.0
+     * @param int $customerId
+     * @return FavoriteInterface
+     */
+    public function setCustomerId(int $customerId): self;
+    /**
+     * Set product id
+     *
+     * @api
+     * @since 1.0.0
+     * @param int $productId
+     * @return FavoriteInterface
+     */
+    public function setProductId(int $productId): self;
+    /**
+     * Set created time
+     *
+     * @api
+     * @since 1.0.0
+     * @param string $createdAt
+     * @return FavoriteInterface
+     */
+    public function setCreatedAt(string $createdAt): self;
 }
