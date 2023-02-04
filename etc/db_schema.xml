@@ -3,10 +3,15 @@
     xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
 
     <table name="simple_favorites" resource="default" engine="innodb" comment="Customers favorites">
+        <column xsi:type="int" name="link_id" unsigned="true" nullable="false" identity="true" />
         <column xsi:type="int" name="customer_id" unsigned="true" nullable="false" comment="Customer ID" />
         <column xsi:type="int" name="product_id" unsigned="true" nullable="false" comment="Product ID" />
         <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"
             comment="Creation Time" />
+
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="link_id" />
+        </constraint>
 
         <constraint xsi:type="foreign" referenceId="SIMPLE_FAVORITES_CUSTOMER_ID_CUSTOMER_ENTITY_ID"
             table="simple_favorites" column="customer_id" referenceTable="customer_entity" referenceColumn="entity_id"

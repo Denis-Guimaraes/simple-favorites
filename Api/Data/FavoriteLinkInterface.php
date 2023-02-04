@@ -5,7 +5,7 @@ namespace SimpleMage\SimpleFavorites\Api\Data;
  * @api
  * @since 1.0.0
  */
-interface FavoriteInterface
+interface FavoriteLinkInterface
 {
     public const KEY_CUSTOMER_ID = 'customer_id';
     public const KEY_PRODUCT_ID = 'product_id';
@@ -41,7 +41,7 @@ interface FavoriteInterface
      * @api
      * @since 1.0.0
      * @param int $customerId
-     * @return FavoriteInterface
+     * @return FavoriteLinkInterface
      */
     public function setCustomerId(int $customerId): self;
     /**
@@ -50,7 +50,7 @@ interface FavoriteInterface
      * @api
      * @since 1.0.0
      * @param int $productId
-     * @return FavoriteInterface
+     * @return FavoriteLinkInterface
      */
     public function setProductId(int $productId): self;
     /**
@@ -59,7 +59,7 @@ interface FavoriteInterface
      * @api
      * @since 1.0.0
      * @param string $createdAt
-     * @return FavoriteInterface
+     * @return FavoriteLinkInterface
      */
     public function setCreatedAt(string $createdAt): self;
 }
