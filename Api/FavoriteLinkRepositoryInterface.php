@@ -12,6 +12,15 @@ use SimpleMage\SimpleFavorites\Api\Data\FavoriteLinkSearchResultsInterface;
 interface FavoriteLinkRepositoryInterface
 {
     /**
+     * Get favorite list by customer ID
+     *
+     * @api
+     * @since 1.0.0
+     * @param int $customerId
+     * @return FavoriteLinkInterface[]
+     */
+    public function getListByCustomerId(int $customerId): array;
+    /**
      * Get favorite list
      *
      * @api

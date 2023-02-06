@@ -3,6 +3,7 @@
 namespace SimpleMage\SimpleFavorites\Model;
 
 use SimpleMage\SimpleFavorites\Api\FavoriteLinkRepositoryInterface;
+use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\Api\SearchCriteria\CollectionProcessorInterface;
 use SimpleMage\SimpleFavorites\Model\ResourceModel\FavoriteLink\CollectionFactory;
 use SimpleMage\SimpleFavorites\Api\Data\FavoriteLinkSearchResultsInterfaceFactory;
@@ -13,21 +14,31 @@ use SimpleMage\SimpleFavorites\Api\Data\FavoriteLinkSearchResultsInterface;
 
 class FavoriteLinkRepository implements FavoriteLinkRepositoryInterface
 {
+    private SearchCriteriaBuilder $searchCriteriaBuilder;
     private CollectionProcessorInterface $collectionProcessor;
     private CollectionFactory $favoriteLinkCollectionFactory;
     private FavoriteLinkSearchResultsInterfaceFactory $favoriteLinkSearchResultsFactory;
     private FavoriteLinkResource $favoriteLinkResource;
 
     public function __construct(
+        SearchCriteriaBuilder $searchCriteriaBuilder,
         CollectionProcessorInterface $collectionProcessor,
         CollectionFactory $favoriteLinkCollectionFactory,
         FavoriteLinkSearchResultsInterfaceFactory $favoriteLinkSearchResultsFactory,
         FavoriteLinkResource $favoriteLinkResource
     ) {
+        $this->searchCriteriaBuilder = $searchCriteriaBuilder;
         $this->collectionProcessor = $collectionProcessor;
         $this->favoriteLinkCollectionFactory = $favoriteLinkCollectionFactory;
         $this->favoriteLinkSearchResultsFactory = $favoriteLinkSearchResultsFactory;
         $this->favoriteLinkResource = $favoriteLinkResource;
+    }
+
+    public function getListByCustomerId(int $customerId): array
+    {
+        $this->searchCriteriaBuilder->addFilter(FavoriteLinkInterface::KEY_CUSTOMER_ID, $customerId);
+        $searchCriteria = $this->searchCriteriaBuilder->create();
+        return $this->getList($searchCriteria)->getItems();
     }
 
     public function getList(SearchCriteriaInterface $searchCriteria): FavoriteLinkSearchResultsInterface
