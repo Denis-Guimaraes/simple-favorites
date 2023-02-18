@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="product.info.addto">
+            <block class="Magento\Framework\View\Element\Template" name="toggle.product.favorite"
+                template="SimpleMage_SimpleFavorites::toggleFavorite.phtml">
+                <arguments>
+                    <argument name="toggle_favorite" xsi:type="object">
+            SimpleMage\SimpleFavorites\ViewModel\ToggleFavorite</argument>
+                </arguments>
+            </block>
+        </referenceBlock>
+    </body>
+</page>

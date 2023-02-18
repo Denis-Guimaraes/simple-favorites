@@ -1,0 +1,20 @@
+<span id="toggle-favorite" data-bind="scope: 'toggle-favorite'">
+    <!-- ko template: getTemplate() --><!-- /ko -->
+</span>
+
+<script type="text/x-magento-init">
+    {
+        "#toggle-favorite": {
+            "Magento_Ui/js/core/app": {
+               "components": {
+                    "toggle-favorite": {
+                        "component": "SimpleMage_SimpleFavorites/js/toggleFavorite",
+                        "template": "SimpleMage_SimpleFavorites/toggleFavorite",
+                        "baseUrl": "<?= /** @noEscape */ $block->getBaseUrl() ?>",
+                        "productId": <?= /** @noEscape */ $block->getToggleFavorite()->getProductId() ?>
+                    }
+                }
+            }
+        }
+    }
+</script>
