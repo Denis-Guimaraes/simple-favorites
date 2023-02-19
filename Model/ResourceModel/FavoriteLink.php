@@ -14,26 +14,15 @@ class FavoriteLink extends AbstractDb
         $this->_init(self::TABLE_NAME_FAVORITE, self::ID_FIELD_NAME);
     }
 
-    public function getLinkId(int $customerId, int $productId): ?int
-    {
-        $connection = $this->getConnection();
-        $query = $connection->select()
-            ->from(self::TABLE_NAME_FAVORITE, self::ID_FIELD_NAME)
-            ->where('customer_id = ?', $customerId)
-            ->where('product_id = ?', $productId);
-
-        return $connection->fetchOne($query);
-    }
-
-    public function getByCustomerId(int $customerId, string $order = 'asc') : array
+    public function getByIds(int $customerId, int $productId): ?int
     {
         $connection = $this->getConnection();
         $query = $connection->select()
             ->from(self::TABLE_NAME_FAVORITE, 'product_id')
             ->where('customer_id = ?', $customerId)
-            ->order("created_at {$order}");
+            ->where('product_id = ?', $productId);
 
-        return $connection->fetchCol($query);
+        return $connection->fetchOne($query);
     }
 
     public function saveByIds(int $customerId, int $productId): int
@@ -64,6 +53,6 @@ class FavoriteLink extends AbstractDb
 
     private function exist(int $customerId, int $productId): bool
     {
-        return !empty($this->getLinkId($customerId, $productId));
+        return !empty($this->getByIds($customerId, $productId));
     }
 }

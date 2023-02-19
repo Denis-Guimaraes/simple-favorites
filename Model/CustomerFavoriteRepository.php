@@ -16,16 +16,9 @@ class CustomerFavoriteRepository implements CustomerFavoriteRepositoryInterface
         $this->favoriteLinkResource = $favoriteLinkResource;
     }
 
-    public function getByIdAsc(int $customerId): array
+    public function getByIds(int $customerId, int $productId): int
     {
-        $productIds = $this->favoriteLinkResource->getByCustomerId($customerId, 'asc');
-        return array_map(fn($productId) => (int) $productId, $productIds);
-    }
-
-    public function getByIdDesc(int $customerId): array
-    {
-        $productIds = $this->favoriteLinkResource->getByCustomerId($customerId, 'desc');
-        return array_map(fn($productId) => (int) $productId, $productIds);
+        return $this->favoriteLinkResource->getByIds($customerId, $productId);
     }
 
     public function saveByIds(int $customerId, int $productId): bool

@@ -11,24 +11,15 @@ use Magento\Framework\Exception\CouldNotDeleteException;
 interface CustomerFavoriteRepositoryInterface
 {
     /**
-     * Get customer favorites order asc by customer ID
+     * Get by customer ID and product ID
      *
      * @api
      * @since 1.0.0
      * @param int $customerId
-     * @return int[] $productIds
+     * @param int $productId
+     * @return int
      */
-    public function getByIdAsc(int $customerId): array;
-
-    /**
-     * Get customer favorites order desc by customer ID
-     *
-     * @api
-     * @since 1.0.0
-     * @param int $customerId
-     * @return int[] $productIds
-     */
-    public function getByIdDesc(int $customerId): array;
+    public function getByIds(int $customerId, int $productId): int;
     /**
      * Save by customer ID and product ID
      *

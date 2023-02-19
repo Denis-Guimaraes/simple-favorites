@@ -3,28 +3,25 @@ define([
     'ko',
     'Magento_Customer/js/customer-data',
     'jquery',
-    'mage/url',
-], function(Component, ko, customerData, $, urlBuilder) {
+    'SimpleMage_SimpleFavorites/js/action/getFavorite',
+    'SimpleMage_SimpleFavorites/js/action/saveFavorite',
+    'SimpleMage_SimpleFavorites/js/action/deleteFavorite',
+], function(Component, ko, customerData, $, getFavorite, saveFavorite, deleteFavorite) {
     const customer = customerData.get('customer');
 
     return Component.extend({
-        initialize: function() {
-            this._super();
-            urlBuilder.setBaseUrl(this.baseUrl);
-            return this;
-        },
         initObservable: function() {
             this._super();
-            this.favorites = ko.observableArray([]);
-            this.getFavorites();
-            customer.subscribe(this.getFavorites.bind(this));
+            this.favorites = ko.observable(0);
+            this.getFavorite();
+            customer.subscribe(this.getFavorite.bind(this));
             return this;
         },
         isLoggedIn: function() {
             return customer() && customer().firstname;
         },
         isFavorite: function() {
-            return this.favorites().includes(this.productId);
+            return this.favorites();
         },
         getLabel: function() {
             if (this.isFavorite()) {
@@ -34,58 +31,31 @@ define([
         },
         toggleFavorite: function() {
             if (this.isFavorite()) {
-                this.removeFavorite();
+                this.deleteFavorite();
             } else {
-                this.addFavorite();
+                this.saveFavorite();
             }
         },
-        getFavorites: function() {
+        getFavorite: function() {
+            const self = this;
             if (!this.isLoggedIn()) {
                 return;
             }
-            const self = this;
-            $.ajax({
-                type: 'GET',
-                url: urlBuilder.build(
-                    'rest/default/V1/customers/favorites/mine/desc'
-                ),
-            }).done(function(response) {
-                self.favorites(response.product_ids || []);
-                console.log(self.favorites());
-            }).fail(function(error) {
-                console.log(error);
+
+            getFavorite(this.productId).done(function(response) {
+                self.favorites(response);
             });
         },
-        addFavorite: function() {
+        saveFavorite: function() {
             const self = this;
-            $.ajax({
-                type: 'POST',
-                url: urlBuilder.build(
-                    'rest/default/V1/customers/favorites/mine'
-                ),
-                data: JSON.stringify({ productId: this.productId }),
-                contentType: 'application/json',
-                dataType: 'json',
-            }).done(function() {
-                self.favorites.push(self.productId);
-            }).fail(function(error) {
-                console.log(error);
+            saveFavorite(this.productId).done(function() {
+                self.favorites(self.productId);
             });
         },
-        removeFavorite: function() {
+        deleteFavorite: function() {
             const self = this;
-            $.ajax({
-                type: 'DELETE',
-                url: urlBuilder.build(
-                    `rest/default/V1/customers/favorites/mine/${self.productId}`
-                ),
-            }).done(function() {
-                const favorites = self
-                    .favorites()
-                    .filter((productId) => productId !== self.productId);
-                self.favorites(favorites || []);
-            }).fail(function(error) {
-                console.log(error);
+            deleteFavorite(this.productId).done(function() {
+                self.favorites(0);
             });
         },
     });
