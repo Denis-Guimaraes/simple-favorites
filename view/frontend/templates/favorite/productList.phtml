@@ -1,0 +1,12 @@
+<?php
+/** @var \SimpleMage\SimpleFavorites\Block\Template $block */
+
+$productList = $block->getProductList();
+$products = $productList->getProducts();
+?>
+
+<div class="template">
+    <?php foreach ($products as $product): ?>
+        <div><?= $product->getName() ?></div>
+    <?php endforeach; ?>
+</div>
