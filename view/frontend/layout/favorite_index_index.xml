@@ -12,7 +12,22 @@
                 <arguments>
                     <argument name="product_list" xsi:type="object">
             SimpleMage\SimpleFavorites\ViewModel\Favorite\ProductList</argument>
+                    <argument name="product_renderer" xsi:type="object">
+            SimpleMage\SimpleFavorites\ViewModel\Favorite\ProductRenderer</argument>
                 </arguments>
+
+                <block
+                    class="Magento\Framework\View\Element\RendererList" name="category.product.type.details.renderers"
+                    as="details.renderers">
+                    <block class="Magento\Framework\View\Element\Template"
+                        name="category.product.type.details.renderers.default" as="default" />
+                </block>
+
+                <block
+                    class="Magento\Catalog\Block\Product\ProductList\Toolbar" name="product_list_toolbar"
+                    template="Magento_Catalog::product/list/toolbar.phtml">
+                    <block class="Magento\Theme\Block\Html\Pager" name="product_list_toolbar_pager" />
+                </block>
             </block>
         </referenceContainer>
     </body>
