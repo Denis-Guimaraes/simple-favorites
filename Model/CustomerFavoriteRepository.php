@@ -23,6 +23,10 @@ class CustomerFavoriteRepository implements CustomerFavoriteRepositoryInterface
 
     public function saveByIds(int $customerId, int $productId): bool
     {
+        if ($this->exist($customerId, $productId)) {
+            return true;
+        }
+
         try {
             $this->favoriteLinkResource->saveByIds($customerId, $productId);
         } catch (\Exception $e) {
@@ -33,11 +37,20 @@ class CustomerFavoriteRepository implements CustomerFavoriteRepositoryInterface
 
     public function deleteByIds(int $customerId, int $productId): bool
     {
+        if (!$this->exist($customerId, $productId)) {
+            return true;
+        }
+
         try {
             $this->favoriteLinkResource->deleteByIds($customerId, $productId);
         } catch (\Exception $e) {
             throw new CouldNotDeleteException(__('Could not delete favorite.'), $e);
         }
         return true;
+    }
+
+    private function exist(int $customerId, int $productId): bool
+    {
+        return !empty($this->getByIds($customerId, $productId));
     }
 }

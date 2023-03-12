@@ -27,10 +27,6 @@ class FavoriteLink extends AbstractDb
 
     public function saveByIds(int $customerId, int $productId): int
     {
-        if ($this->exist($customerId, $productId)) {
-            return 1;
-        }
-
         $connection = $this->getConnection();
         $bind = [
             'customer_id' => $customerId,
@@ -49,10 +45,5 @@ class FavoriteLink extends AbstractDb
         ];
 
         return $connection->delete(self::TABLE_NAME_FAVORITE, $where);
-    }
-
-    private function exist(int $customerId, int $productId): bool
-    {
-        return !empty($this->getByIds($customerId, $productId));
     }
 }

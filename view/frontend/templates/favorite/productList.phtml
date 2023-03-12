@@ -1,9 +1,11 @@
 <?php
-/** @var \SimpleMage\SimpleFavorites\Block\Template $block */
+/** @var \Magento\Framework\View\Element\Template $block */
 
 $productList = $block->getProductList();
 $productCollection = $productList->getProductCollection();
 $productRenderer = $block->getProductRenderer();
+$viewMode = $productList->getViewMode();
+$imageDisplayArea = $productList->getImageDisplayArea();
 ?>
 
 <?php if (!$productCollection->count()): ?>
@@ -11,18 +13,25 @@ $productRenderer = $block->getProductRenderer();
         <div><?= $escaper->escapeHtml(__('We can\'t find products matching the selection.')) ?></div>
     </div>
 <?php else: ?>
-    <div class="favorites favorites-grid products wrapper grid products-grid">
+    <?= $block->getChildBlock('toolbar')->setCollection($productCollection)->toHtml(); ?>
+    <div class="favorites
+        favorites-list
+        products
+        wrapper
+        <?= /* @noEscape */ $viewMode ?>
+        products-<?= /* @noEscape */ $viewMode ?>"
+    >
         <ol class="products list items product-items">
             <?php foreach ($productCollection as $product): ?>
 
             <li class="item product product-item">
                 <div class="product-item-info"
                      id="product-item-info_<?= /* @noEscape */ $product->getId() ?>"
-                     data-container="product-grid">
+                     data-container="product-<?= /* @noEscape */ $viewMode ?>">
                     <a href="<?= $escaper->escapeUrl($product->getProductUrl()) ?>"
                        class="product photo product-item-photo"
                        tabindex="-1">
-                        <?= /* @noEscape */ $productRenderer->renderImage($product, 'category_page_grid') ?>
+                        <?= /* @noEscape */ $productRenderer->renderImage($product, $imageDisplayArea) ?>
                     </a>
                     <div class="product details product-item-details">
                         <strong class="product name product-item-name">
@@ -40,15 +49,24 @@ $productRenderer = $block->getProductRenderer();
                             <div class="stock unavailable">
                                 <span><?= $escaper->escapeHtml(__('Out of stock')) ?></span></div>
                         <?php endif; ?>
+
+                        <?php if ($productList->showDescription()): ?>
+                            <div class="product description product-item-description">
+                                <?= /* @noEscape */ $productRenderer->renderDescription($product) ?>
+                                <a href="<?= $escaper->escapeUrl($product->getProductUrl()) ?>"
+                                    title="<?= /* @noEscape */ $productRenderer->renderName($product); ?>"
+                                    class="action more"><?= $escaper->escapeHtml(__('Learn More')) ?></a>
+                            </div>
+                        <?php endif; ?>
                     </div>
                 </div>
             </li>
             <?php endforeach; ?>
         </ol>
         <?= $block->getChildBlock('product_list_toolbar')
-                ->setIsBottom(true)
-                ->setCollection($productCollection)
-                ->toHtml()
+            ->setIsBottom(true)
+            ->setCollection($productCollection)
+            ->toHtml()
         ?>
     </div>
 <?php endif; ?>

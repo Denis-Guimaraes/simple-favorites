@@ -28,12 +28,12 @@ class ProductRenderer implements ArgumentInterface
 
     public function renderImage(ProductInterface $product, string $imageId, array $attributes = []): string
     {
-        return $this->imageFactory->create($product, $imageId, $attributes)->toHtml();
+        return (string) $this->imageFactory->create($product, $imageId, $attributes)->toHtml();
     }
 
     public function renderName(ProductInterface $product): string
     {
-        return $this->outputHelper->productAttribute($product, $product->getName(), 'name');
+        return (string) $this->outputHelper->productAttribute($product, $product->getName(), 'name');
     }
 
     public function renderPrice(ProductInterface $product): string
@@ -43,7 +43,7 @@ class ProductRenderer implements ArgumentInterface
             return '';
         }
 
-        return $priceRender->render(
+        return (string) $priceRender->render(
             FinalPrice::PRICE_CODE,
             $product,
             [
@@ -52,6 +52,15 @@ class ProductRenderer implements ArgumentInterface
                 'zone' => Render::ZONE_ITEM_LIST,
                 'list_category_page' => true
             ]
+        );
+    }
+
+    public function renderDescription(ProductInterface $product): string
+    {
+        return (string) $this->outputHelper->productAttribute(
+            $product,
+            $product->getShortDescription(),
+            'short_description'
         );
     }
 }

@@ -3,72 +3,49 @@
 namespace SimpleMage\SimpleFavorites\ViewModel\Favorite;
 
 use Magento\Framework\View\Element\Block\ArgumentInterface;
-use Magento\Catalog\Model\ResourceModel\Product\CollectionFactory;
-use Magento\Catalog\Model\ResourceModel\Product\Collection;
-use Magento\Catalog\Model\Product\Visibility;
-use Magento\Customer\Model\Session;
+use SimpleMage\SimpleFavorites\Model\Favorites\ProductCollectionFactory;
 use Magento\Framework\App\RequestInterface;
-use SimpleMage\SimpleFavorites\Model\ResourceModel\FavoriteLink;
+use Magento\Catalog\Model\ResourceModel\Product\Collection;
 
 class ProductList implements ArgumentInterface
 {
-    private const DEFAULT_PAGE_SIZE = 12;
-    private CollectionFactory $collectionFactory;
-    private Visibility $productVisibility;
-    private Collection $productCollection;
-    private Session $customerSession;
+    public const DEFAULT_VIEW_MODE = 'grid';
+    private ProductCollectionFactory $productCollectionFactory;
     private RequestInterface $request;
+    private Collection $productCollection;
 
-    public function __construct(
-        CollectionFactory $collectionFactory,
-        Visibility $productVisibility,
-        Session $customerSession,
-        RequestInterface $request
-    ) {
-        $this->collectionFactory = $collectionFactory;
-        $this->productVisibility = $productVisibility;
-        $this->customerSession = $customerSession;
+    public function __construct(ProductCollectionFactory $productCollectionFactory, RequestInterface $request)
+    {
+        $this->productCollectionFactory = $productCollectionFactory;
         $this->request = $request;
     }
 
     public function getProductCollection(): Collection
     {
         if (!isset($this->productCollection)) {
-            $this->loadProductCollection();
+            $this->productCollection = $this->productCollectionFactory->createFromRequest();
         }
         return $this->productCollection;
     }
 
-    private function loadProductCollection(): void
+    public function getViewMode(): string
     {
-        $this->productCollection = $this->collectionFactory->create();
-        $this->productCollection->addAttributeToSelect('*');
-        $this->productCollection->setVisibility($this->productVisibility->getVisibleInSiteIds());
-        $this->productCollection->joinField(...$this->getCreatedAtJoinParameters());
-        $this->productCollection->addOrder('favorite_created_at', 'DESC');
-        $this->productCollection->setPageSize($this->getPageSize());
-        $this->productCollection->setCurPage($this->getCurrentPage());
-        $this->productCollection->load();
+        return $this->request->getParam('product_list_mode') ?: self::DEFAULT_VIEW_MODE;
     }
 
-    private function getCreatedAtJoinParameters(): array
+    public function getImageDisplayArea(): string
     {
-        return [
-            'favorite_created_at',
-            FavoriteLink::TABLE_NAME_FAVORITE,
-            'created_at',
-            'product_id = entity_id',
-            ['customer_id' => $this->customerSession->getCustomerId()]
-        ];
+        if ($this->getViewMode() === 'list') {
+            return 'category_page_list';
+        }
+        return 'category_page_grid';
     }
 
-    private function getPageSize(): int
+    public function showDescription(): bool
     {
-        return $this->request->getParam('product_list_limit') ?: self::DEFAULT_PAGE_SIZE;
-    }
-
-    private function getCurrentPage(): int
-    {
-        return $this->request->getParam('p') ?: 1;
+        if ($this->getViewMode() === 'list') {
+            return true;
+        }
+        return false;
     }
 }

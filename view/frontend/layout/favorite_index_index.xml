@@ -17,11 +17,8 @@
                 </arguments>
 
                 <block
-                    class="Magento\Framework\View\Element\RendererList" name="category.product.type.details.renderers"
-                    as="details.renderers">
-                    <block class="Magento\Framework\View\Element\Template"
-                        name="category.product.type.details.renderers.default" as="default" />
-                </block>
+                    class="SimpleMage\SimpleFavorites\Block\Favorite\ProductList\Toolbar" name="toolbar"
+                    template="Magento_Catalog::product/list/toolbar.phtml" />
 
                 <block
                     class="Magento\Catalog\Block\Product\ProductList\Toolbar" name="product_list_toolbar"
