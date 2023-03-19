@@ -9,7 +9,8 @@ use Magento\Customer\Model\Session;
 use SimpleMage\SimpleFavorites\Api\CustomerFavoriteRepositoryInterface;
 use Magento\Framework\Message\ManagerInterface;
 use Magento\Framework\Controller\ResultFactory;
-use Magento\Framework\Controller\Result\Redirect;
+use Magento\Framework\App\Response\RedirectInterface;
+use Magento\Framework\Controller\Result\Redirect as ResultRedirect;
 
 class Delete implements HttpPostActionInterface
 {
@@ -19,6 +20,7 @@ class Delete implements HttpPostActionInterface
     private CustomerFavoriteRepositoryInterface $customerFavoriteRepository;
     private ManagerInterface $messageManager;
     private ResultFactory $resultFactory;
+    private RedirectInterface $redirect;
 
     public function __construct(
         RequestInterface $request,
@@ -26,7 +28,8 @@ class Delete implements HttpPostActionInterface
         Session $customerSession,
         CustomerFavoriteRepositoryInterface $customerFavoriteRepository,
         ManagerInterface $messageManager,
-        ResultFactory $resultFactory
+        ResultFactory $resultFactory,
+        RedirectInterface $redirect
     ) {
         $this->request = $request;
         $this->formKeyValidator = $formKeyValidator;
@@ -34,6 +37,7 @@ class Delete implements HttpPostActionInterface
         $this->customerFavoriteRepository = $customerFavoriteRepository;
         $this->messageManager = $messageManager;
         $this->resultFactory = $resultFactory;
+        $this->redirect = $redirect;
     }
 
     public function execute()
@@ -84,13 +88,18 @@ class Delete implements HttpPostActionInterface
         $this->messageManager->addErrorMessage(__('We can\'t remove the product from your favorites right now.'));
     }
 
-    private function redirectToFavorites(): Redirect
+    private function redirectToFavorites(): ResultRedirect
     {
-        $redirect = $this->createResultRedirect();
-        return $redirect->setPath('*/*/');
+        $resultRedirect = $this->createResultRedirect();
+        $refererUrl = $this->redirect->getRefererUrl();
+
+        if (!empty($refererUrl)) {
+            return $resultRedirect->setUrl($refererUrl);
+        }
+        return $resultRedirect->setPath('*/*/');
     }
 
-    private function createResultRedirect(): Redirect
+    private function createResultRedirect(): ResultRedirect
     {
         return $this->resultFactory->create(ResultFactory::TYPE_REDIRECT);
     }
