@@ -1,6 +1,8 @@
 <?php
 /** @var \Magento\Framework\View\Element\Template $block */
 
+use SimpleMage\SimpleFavorites\ViewModel\Favorite\ProductList;
+
 $productList = $block->getProductList();
 $productCollection = $productList->getProductCollection();
 $productRenderer = $block->getProductRenderer();
@@ -37,7 +39,7 @@ $imageDisplayArea = $productList->getImageDisplayArea();
                         <strong class="product name product-item-name">
                             <a class="product-item-link"
                                href="<?= $escaper->escapeUrl($product->getProductUrl()) ?>">
-                                <?= /* @noEscape */ $productRenderer->renderName($product); ?>
+                                <?= /* @noEscape */ $productRenderer->renderName($product) ?>
                             </a>
                         </strong>
 
@@ -54,10 +56,23 @@ $imageDisplayArea = $productList->getImageDisplayArea();
                             <div class="product description product-item-description">
                                 <?= /* @noEscape */ $productRenderer->renderDescription($product) ?>
                                 <a href="<?= $escaper->escapeUrl($product->getProductUrl()) ?>"
-                                    title="<?= /* @noEscape */ $productRenderer->renderName($product); ?>"
+                                    title="<?= /* @noEscape */ $productRenderer->renderName($product) ?>"
                                     class="action more"><?= $escaper->escapeHtml(__('Learn More')) ?></a>
                             </div>
                         <?php endif; ?>
+                        <div class="product actions product-item-actions">
+                            <form action="<?= $productList->getDeleteUrl() ?>" method="post">
+                                <?= $block->getBlockHtml('formkey') ?>
+                                <input type="hidden" name="productId" value="<?= $product->getId() ?>">
+                                <button class="action toggle-favorite towishlist isFavorite"
+                                    title="<?= $escaper->escapeHtml(__('Remove from favorites')) ?>"
+                                >
+                                    <?php if ($viewMode === 'list'): ?>
+                                        <?= $escaper->escapeHtml(__('Remove from favorites')) ?>
+                                    <?php endif; ?>
+                                </button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </li>
