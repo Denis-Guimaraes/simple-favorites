@@ -64,7 +64,7 @@ $imageDisplayArea = $productList->getImageDisplayArea();
                             <form action="<?= $productList->getDeleteUrl() ?>" method="post">
                                 <?= $block->getBlockHtml('formkey') ?>
                                 <input type="hidden" name="productId" value="<?= $product->getId() ?>">
-                                <button class="action toggle-favorite towishlist isFavorite"
+                                <button class="action delete-favorite"
                                     title="<?= $escaper->escapeHtml(__('Remove from favorites')) ?>"
                                 >
                                     <?php if ($viewMode === 'list'): ?>

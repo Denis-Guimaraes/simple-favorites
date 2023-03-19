@@ -9,6 +9,7 @@ define([
         const self = this;
         this.productId = productId;
         this.isFavorite = ko.observable(false);
+
         getFavorite(this.productId).done(function(response) {
             self.isFavorite(response ? true : false);
         });

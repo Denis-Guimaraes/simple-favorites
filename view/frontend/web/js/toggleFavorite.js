@@ -4,15 +4,18 @@ define([
     'SimpleMage_SimpleFavorites/js/model/favorite'
 ], function(Component, customerData, favorite) {
     const customer = customerData.get('customer');
+    customerData.reload(['customer']);
 
     return Component.extend({
         initialize: function() {
             this._super();
+            const self = this;
+
             if (this.isLoggedIn()) {
                 this.favorite = new favorite(this.productId);
             }
             customer.subscribe(function() {
-                this.favorite = new favorite(this.productId);
+                self.favorite = new favorite(self.productId);
             });
             return this;
         },
@@ -21,6 +24,9 @@ define([
         },
         isFavorite: function() {
             return this.favorite.isFavorite();
+        },
+        getClass: function() {
+            return this.favorite.isFavorite() ? 'delete-favorite' : 'save-favorite';
         },
         getLabel: function() {
             if (this.isFavorite()) {

@@ -1,6 +1,30 @@
 & when (@media-common =true) {
-    .action.toggle-favorite.towishlist.isFavorite:before {
-        content: @icon-trash;
+    button.delete-favorite {
+        all: unset;
+        cursor: pointer;
+
+        &:hover {
+            background: none;
+            border: none;
+        }
+    }
+
+    .action.delete-favorite {
+        &:extend(.abs-actions-addto all);
+        .lib-icon-font-symbol(@_icon-font-content: @icon-star, @_icon-font-position: before);
+
+        &::before {
+            .lib-css(color, @theme__color__primary);
+        }
+
+        &:hover::before {
+            .lib-css(color, @theme__color__secondary);
+        }
+    }
+
+    .action.save-favorite {
+        &:extend(.abs-actions-addto all);
+        .lib-icon-font-symbol(@_icon-font-content: @icon-star, @_icon-font-position: before);
     }
 
     .favorites.favorites-list {
@@ -18,11 +42,6 @@
             margin: 0;
             display: flex;
             justify-content: flex-end;
-
-            button {
-                all: unset;
-                cursor: pointer;
-            }
         }
 
     }

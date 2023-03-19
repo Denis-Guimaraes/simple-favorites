@@ -1,5 +1,4 @@
 <!-- ko if: isLoggedIn() -->
-<a href="#" class="action toggle-favorite towishlist"
-    data-bind="i18n: getLabel(), css: { isFavorite: isFavorite() }, click: toggleFavorite">
+<a href="#" class="action" data-bind="i18n: getLabel(), css: getClass(), click: toggleFavorite">
 </a>
 <!-- /ko -->
