@@ -1,8 +1,6 @@
 <?php
 /** @var \Magento\Framework\View\Element\Template $block */
 
-use SimpleMage\SimpleFavorites\ViewModel\Favorite\ProductList;
-
 $productList = $block->getProductList();
 $productCollection = $productList->getProductCollection();
 $productRenderer = $block->getProductRenderer();
@@ -61,9 +59,9 @@ $imageDisplayArea = $productList->getImageDisplayArea();
                             </div>
                         <?php endif; ?>
                         <div class="product actions product-item-actions">
-                            <form action="<?= $productList->getDeleteUrl() ?>" method="post">
+                            <form action="<?= $escaper->escapeUrl($productList->getDeleteUrl()) ?>" method="post">
                                 <?= $block->getBlockHtml('formkey') ?>
-                                <input type="hidden" name="productId" value="<?= $product->getId() ?>">
+                                <input type="hidden" name="productId" value="<?= (int) $product->getId() ?>">
                                 <button class="action delete-favorite"
                                     title="<?= $escaper->escapeHtml(__('Remove from favorites')) ?>"
                                 >
