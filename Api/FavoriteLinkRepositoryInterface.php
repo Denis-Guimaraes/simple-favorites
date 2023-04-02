@@ -8,7 +8,7 @@ use Magento\Framework\Exception\CouldNotDeleteException;
  * @api
  * @since 1.0.0
  */
-interface CustomerFavoriteRepositoryInterface
+interface FavoriteLinkRepositoryInterface
 {
     /**
      * Get by customer ID and product ID

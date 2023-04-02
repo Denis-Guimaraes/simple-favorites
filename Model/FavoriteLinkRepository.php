@@ -2,12 +2,12 @@
 
 namespace SimpleMage\SimpleFavorites\Model;
 
-use SimpleMage\SimpleFavorites\Api\CustomerFavoriteRepositoryInterface;
+use SimpleMage\SimpleFavorites\Api\FavoriteLinkRepositoryInterface;
 use SimpleMage\SimpleFavorites\Model\ResourceModel\FavoriteLink as FavoriteLinkResource;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\CouldNotDeleteException;
 
-class CustomerFavoriteRepository implements CustomerFavoriteRepositoryInterface
+class FavoriteLinkRepository implements FavoriteLinkRepositoryInterface
 {
     private FavoriteLinkResource $favoriteLinkResource;
 

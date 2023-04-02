@@ -6,7 +6,7 @@ use Magento\Framework\App\Action\HttpPostActionInterface;
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\Data\Form\FormKey\Validator;
 use Magento\Customer\Model\Session;
-use SimpleMage\SimpleFavorites\Api\CustomerFavoriteRepositoryInterface;
+use SimpleMage\SimpleFavorites\Api\FavoriteLinkRepositoryInterface;
 use Magento\Framework\Message\ManagerInterface;
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\App\Response\RedirectInterface;
@@ -17,7 +17,7 @@ class Delete implements HttpPostActionInterface
     private RequestInterface $request;
     private Validator $formKeyValidator;
     private Session $customerSession;
-    private CustomerFavoriteRepositoryInterface $customerFavoriteRepository;
+    private FavoriteLinkRepositoryInterface $customerFavoriteRepository;
     private ManagerInterface $messageManager;
     private ResultFactory $resultFactory;
     private RedirectInterface $redirect;
@@ -26,7 +26,7 @@ class Delete implements HttpPostActionInterface
         RequestInterface $request,
         Validator $formKeyValidator,
         Session $customerSession,
-        CustomerFavoriteRepositoryInterface $customerFavoriteRepository,
+        FavoriteLinkRepositoryInterface $customerFavoriteRepository,
         ManagerInterface $messageManager,
         ResultFactory $resultFactory,
         RedirectInterface $redirect

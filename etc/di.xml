@@ -4,6 +4,6 @@
     <preference for="SimpleMage\SimpleFavorites\Api\Data\FavoriteLinkInterface"
         type="SimpleMage\SimpleFavorites\Model\Data\FavoriteLink" />
 
-    <preference for="SimpleMage\SimpleFavorites\Api\CustomerFavoriteRepositoryInterface"
-        type="SimpleMage\SimpleFavorites\Model\CustomerFavoriteRepository" />
+    <preference for="SimpleMage\SimpleFavorites\Api\FavoriteLinkRepositoryInterface"
+        type="SimpleMage\SimpleFavorites\Model\FavoriteLinkRepository" />
 </config>
