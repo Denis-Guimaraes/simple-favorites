@@ -5,6 +5,10 @@ namespace SimpleMage\SimpleFavorites\Block\Favorite\ProductList;
 use Magento\Catalog\Block\Product\ProductList\Toolbar as BaseToolbar;
 use SimpleMage\SimpleFavorites\Model\Favorites\ProductCollectionFactory;
 
+/**
+ * @inheritDoc
+ * @SuppressWarnings(PHPMD.CamelCasePropertyName)
+ */
 class Toolbar extends BaseToolbar
 {
     protected $_orderField = ProductCollectionFactory::DEFAULT_ORDER_ATTRIBUTE;
